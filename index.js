@@ -20,9 +20,8 @@ function parse(log) {
     if (match != null) {
       const iteration = match[1];
       let output = {iteration: Number.parseInt(iteration)};
-      for (let j = 1; i < lines.length - i - 1; ++i) {
-        const match = lines[i + j].match(/Test net output #\d+: (\S+) = (\d(\.\d+)?)/);
-        console.log(lines[i+j]);
+      for (let j = i + 1; j < lines.length - 1; ++j) {
+        const match = lines[j].match(/Test net output #\d+: (\S+) = (\d(\.\d+)?)/);
         if (match != null) {
           output[match[1]] = Number.parseFloat(match[2]);
         } else {
