@@ -34,4 +34,34 @@ function parse(log) {
   return {train_output, test_output};
 }
 
+function trainCSV(train_output) {
+  let train_csv = ['iteration,loss,'];
+  train_output.forEach((s) => {
+    train_csv.push(`${s.iteration},${s.loss},`)
+  });
+  return train_csv.join('\n');
+}
+
+function testCSV(test_output) {
+  if (test_output.length == 0) {
+    return '';
+  } else {
+    const head = test_output[0];
+    const fields = Object.keys(head).filter((x) => x != 'iteration');
+    let test_csv = [`iteration,${fields.join(',')},`];
+    test_output.forEach((s) => {
+      test_csv.push(`${s.iteration},${fields.map((f) => s[f]).join(',')},`);
+    });
+    return test_csv.join('\n');
+  }
+}
+
+function toCSV({train_output, test_output}) {
+  return {
+    train_csv: trainCSV(train_output),
+    test_csv: testCSV(test_output)
+  }
+}
+
 exports.parse = parse;
+exports.toCSV = toCSV;
